@@ -32,11 +32,11 @@ MMRIreg MMRI[MMRI_NUM];
  */
 
 // System registers
-char *programmer_tag = "V0.1 " __DATE__;
+char *programmer_tag = "";
 char user_tag[20] = "";
 char password[20] = "abc123";
 uint8_t mmri_config = 0;
-uint32_t uart_baud = 460800;
+uint32_t uart_baud = 921600;
 
 // Global variables
 uint8_t permission_level = 0;
@@ -62,11 +62,14 @@ void mmriInit()
       MMRI[i].type = UNDEF;
    }
 
+   printf("\nINFO: %s\n", build_info);
+
    mmriInitVar(0, STRING, RO, VOL, NOPW, programmer_tag);
    mmriInitVar(1, STRING, RW, NVM, NOPW, &user_tag[0]);
-   mmriInitVar(2, STRING, RW, NVM, PWRD, &password[0]);
-   mmriInitVar(3, UINT8, RW, VOL, NOPW, &mmri_config);
-   mmriInitVar(4, UINT32, RW, NVM, PWWR, &uart_baud);
+   mmriInitVar(2, STRING, RO, VOL, NOPW, build_info);
+   mmriInitVar(3, STRING, RW, NVM, PWRD, &password[0]);
+   mmriInitVar(4, UINT8, RW, VOL, NOPW, &mmri_config);
+   mmriInitVar(5, UINT32, RW, NVM, PWWR, &uart_baud);
 
 }
 
